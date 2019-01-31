@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+   <head>
+
+      <style>
+	#div1 
+	{
+		width: 500px;
+		height:200px;
+		padding: 10px;
+		z-index:10;
+	}
+	#SVGs
+	{
+        width:500px;
+        height:200px;
+        margin: 20px 0 0 300px;
+        position:relative;
+
+    }
+	.sec1,.sec2
+	{
+        width:500px;
+        height:200px;
+        position:absolute;
+        top:0;
+        left:0;
+    }
+    #svgelem 
+	{
+    position: absolute;
+    left: 20%;
+    -webkit-transform: translateX(-20%);
+    -ms-transform: translateX(-20%);
+    transform: translateX(-20%);
+    }
+         
+	#svgelem2 
+	{
+	width:500px;
+    position: absolute;
+    left: 20%;
+    -webkit-transform: translateX(-20%);
+    -ms-transform: translateX(-20%);
+    transform: translateX(-20%);
+    }
+      </style>
+	    <script type = "text/javascript">
+         
+         function allowDrop(ev) {
+    ev.preventDefault();
+}
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+   function showLocation(position) {
+              if( localStorage.location ) {
+                  var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+           localStorage.location="Latitude : " + latitude + " Longitude: " + longitude;
+            
+            
+         } 
+            else {
+            localStorage.location="Latitude : " + latitude + " Longitude: " + longitude;
+            
+         }
+		 document.getElementById("loc").innerHTML=localStorage.location ;
+      
+            }
+         function errorHandler(err) {
+            if(err.code == 1) {
+               alert("Error: Access is denied!");
+            } else if( err.code == 2) {
+               alert("Error: Position is unavailable!");
+            }
+         }
+			
+         function getLocation() {
+            if(navigator.geolocation) {
+               
+               // timeout at 60000 milliseconds (60 seconds)
+               var options = {timeout:60000};
+               navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+            } else {
+               alert("Sorry, browser does not support geolocation!");
+            }
+         }
+        </script>
+      <title>SVG</title>
+      <meta charset = "utf-8" />
+   </head>
+
+   <body onload="getLocation();">
+      <h2 align = "center">HTML5 L2 Assignment</h2>
+	  <div>
+	 <label><strong>Geo Location:</strong></label><h5 id="loc"></h5>
+	 </div>
+	<hr>
+	<label><strong>Drag and Drop image into SVG circle</strong><label>
+	<section id="SVGs">
+	<section class="sec2">
+      <svg id = "svgelem" height = "200" xmlns = "http://www.w3.org/2000/svg">
+         <circle id = "greencircle" cx = "130" cy = "100" r = "100" fill = "green" />
+      </svg>
+      <svg id = "svgelem2" height = "200" xmlns = "http://www.w3.org/2000/svg" >
+         <circle id = "yellowcircle" cx = "360" cy = "100" r = "100" fill = "yellow" ondrop="drop(event)" ondragover="allowDrop(event)"  />
+      </svg>
+	  </section>
+	<section class="sec1" id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></section>
+	</section>
+<br>
+<img id="drag1" src="img_logo.gif" draggable="true" ondragstart="drag(event)" width="500" height="100">
+</body>
+</html> 
+
+
